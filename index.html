@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Gamis Majida</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+:root{
+    --burgundy:#5a1a1a;
+    --dark:#3d0f0f;
+    --gold:#d4af37;
+    --white:#f8f8f8;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+    background:var(--burgundy);
+    color:var(--white);
+    font-family:'Poppins',sans-serif;
+}
+
+/* LOGIN */
+#loginBox{
+    position:fixed;
+    inset:0;
+    background:var(--burgundy);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index:999;
+}
+.login-card{
+    background:var(--dark);
+    padding:2.5rem;
+    width:320px;
+    border-radius:14px;
+    text-align:center;
+    border:1px solid var(--gold);
+}
+.login-card h2{
+    font-family:'Playfair Display',serif;
+    color:var(--gold);
+    margin-bottom:1rem;
+}
+.login-card input{
+    width:100%;
+    padding:10px;
+    border-radius:8px;
+    border:none;
+    margin-bottom:1rem;
+}
+.login-card button{
+    width:100%;
+    padding:12px;
+    background:var(--gold);
+    border:none;
+    border-radius:8px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+/* HEADER */
+header{
+    text-align:center;
+    padding:1.5rem;
+    border-bottom:1px solid rgba(255,255,255,0.2);
+}
+header h1{
+    font-family:'Playfair Display',serif;
+    color:var(--gold);
+    font-size:2.3rem;
+}
+
+/* PRODUK */
+.container{
+    max-width:1200px;
+    margin:2.5rem auto;
+    padding:1rem;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:2rem;
+}
+.product{
+    background:var(--dark);
+    border-radius:16px;
+    overflow:hidden;
+    border:1px solid rgba(255,255,255,0.15);
+}
+.product img{
+    width:100%;
+    height:320px;
+    object-fit:cover;
+}
+.product-content{
+    padding:1.5rem;
+}
+.product-content h3{
+    font-family:'Playfair Display',serif;
+}
+.price{
+    color:var(--gold);
+    font-weight:bold;
+    margin:6px 0;
+}
+select{
+    width:100%;
+    padding:10px;
+    border-radius:8px;
+    border:none;
+    margin-bottom:10px;
+}
+.buy-btn{
+    width:100%;
+    padding:12px;
+    border:2px solid var(--gold);
+    background:none;
+    color:var(--gold);
+    border-radius:8px;
+    font-weight:bold;
+    cursor:pointer;
+}
+.buy-btn:hover{
+    background:var(--gold);
+    color:var(--dark);
+}
+
+/* CART */
+.cart-btn{
+    position:fixed;
+    bottom:20px;
+    right:20px;
+    background:var(--gold);
+    color:var(--dark);
+    padding:14px 22px;
+    border-radius:50px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+/* CHECKOUT */
+.checkout{
+    max-width:520px;
+    margin:2rem auto;
+    background:var(--dark);
+    padding:2rem;
+    border-radius:16px;
+    border:1px solid var(--gold);
+    display:none;
+}
+.checkout h3{
+    font-family:'Playfair Display',serif;
+    color:var(--gold);
+    text-align:center;
+    margin-bottom:1rem;
+}
+.checkout textarea{
+    width:100%;
+    padding:10px;
+    border-radius:8px;
+    border:none;
+    margin:10px 0;
+}
+.checkout button{
+    width:100%;
+    padding:14px;
+    background:var(--gold);
+    border:none;
+    border-radius:8px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+footer{
+    text-align:center;
+    padding:1.5rem;
+    opacity:.7;
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN -->
+<div id="loginBox">
+    <div class="login-card">
+        <h2>Gamis Majida</h2>
+        <input type="text" id="nickname" placeholder="Nama Panggilan">
+        <button onclick="login()">Masuk</button>
+    </div>
+</div>
+
+<header>
+    <h1>Gamis Majida</h1>
+    <p id="welcomeText"></p>
+</header>
+
+<div class="container">
+
+<!-- 8 PRODUK -->
+<script>
+const products=[
+["Gamis Hitam",195000,"https://www.static-src.com/wcsstore/Indraprastha/images/catalog/full/catalog-image/96/MTA-157533206/brd-47308_fame-aisyah-gamis-hitam-detail-brokat-ruffle-terbaru-9911181_full01-ef9ac936.jpg"],
+["Gamis Putih",185000,"https://www.static-src.com/wcsstore/Indraprastha/images/catalog/full/catalog-image/103/MTA-157528471/brd-47308_fame-alina-gamis-putih-detail-brokat-terbaru-9911177_full06-cb1d801c.jpg"],
+["Gamis Burgundy",175000,"https://cdn0-production-images-kly.akamaized.net/yBVJb4IqJIlPykFUVxjWaJFi-Cg=/500x667/smart/filters:quality(75):strip_icc()/kly-media-production/medias/5281062/original/017011200_1752308442-ChatGPT_Image_Jul_12__2025__03_04_47_PM.jpg"],
+["Gamis Navy",200000,"https://elzatta.com/cdn/shop/products/GamisSatinLenganPleatsNavy_2.png?v=1681360559&width=2048"],
+["Gamis Coksu",190000,"https://img.lazcdn.com/g/p/90be625cda976dd929aa73035ab0d3ec.jpg_720x720q80.jpg"],
+["Gamis Milo",180000,"https://www.static-src.com/wcsstore/Indraprastha/images/catalog/full//94/MTA-43427632/fame_fame_gamis_9911109_milo_full01_oznp2gfz.jpg"],
+["Gamis Abu Muda",210000,"https://www.hijup.com/magazine/wp-content/uploads/2023/10/772e0128-gamis-polos-zipper-depan-abu-abu.jpeg"],
+["Gamis Denim",205000,"https://elzatta.com/cdn/shop/products/Untitled-2_0704bcfe-5b1c-4045-8a30-b84c9d05f35b.png?v=1681277719&width=2048"]
+];
+</script>
+
+</div>
+
+<div class="cart-btn" onclick="openCheckout()">🛒 Keranjang (<span id="cartCount">0</span>)</div>
+
+<div class="checkout" id="checkoutBox">
+<h3>Checkout</h3>
+<div id="orderList"></div>
+<p><strong>Total: Rp <span id="totalPrice">0</span></strong></p>
+<textarea id="address" placeholder="Alamat Lengkap Pengiriman"></textarea>
+<button onclick="checkout()">Konfirmasi Pesanan</button>
+</div>
+
+<footer>© 2026 Gamis Majida</footer>
+
+<script>
+let user="";
+let cart=[];
+
+function login(){
+    const name=document.getElementById("nickname").value;
+    if(!name) return alert("Isi nama panggilan!");
+    user=name;
+    document.getElementById("welcomeText").innerText="Assalamu'alaikum, "+user;
+    document.getElementById("loginBox").style.display="none";
+    renderProducts();
+}
+
+function renderProducts(){
+    const container=document.querySelector(".container");
+    products.forEach(p=>{
+        container.innerHTML+=`
+        <div class="product">
+            <img src="${p[2]}">
+            <div class="product-content">
+                <h3>${p[0]}</h3>
+                <p class="price">Rp ${p[1].toLocaleString()}</p>
+                <select>
+                    <option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option>
+                </select>
+                <button class="buy-btn" onclick="addToCart('${p[0]}',${p[1]},this)">Tambah</button>
+            </div>
+        </div>`;
+    });
+}
+
+function addToCart(name,price,btn){
+    const size=btn.previousElementSibling.value;
+    cart.push({name,price,size});
+    document.getElementById("cartCount").innerText=cart.length;
+    alert(name+" ditambahkan");
+}
+
+function openCheckout(){
+    if(cart.length===0) return alert("Keranjang kosong!");
+    let list="",total=0;
+    cart.forEach((i,n)=>{
+        list+=`${n+1}. ${i.name} (${i.size}) - Rp ${i.price.toLocaleString()}<br>`;
+        total+=i.price;
+    });
+    document.getElementById("orderList").innerHTML=list;
+    document.getElementById("totalPrice").innerText=total.toLocaleString();
+    document.getElementById("checkoutBox").style.display="block";
+    window.scrollTo({top:document.body.scrollHeight,behavior:"smooth"});
+}
+
+function checkout(){
+    const addr=document.getElementById("address").value;
+    if(!addr) return alert("Alamat wajib diisi!");
+    alert(`Pesanan berhasil!\nNama: ${user}\nTotal: Rp ${cart.reduce((a,b)=>a+b.price,0).toLocaleString()}`);
+    cart=[];
+    document.getElementById("cartCount").innerText=0;
+    document.getElementById("checkoutBox").style.display="none";
+    document.getElementById("address").value="";
+}
+</script>
+
+</body>
+</html>
+<script>
+function checkout(){
+    const addr=document.getElementById("address").value;
+    if(!addr) return alert("Alamat wajib diisi!");
+
+    let pesan = `Halo Admin Gamis Majida%0A%0A`;
+    pesan += `Nama: ${user}%0A`;
+    pesan += `Alamat:%0A${addr}%0A%0A`;
+    pesan += `Pesanan:%0A`;
+
+    let total = 0;
+    cart.forEach((i,n)=>{
+        pesan += `${n+1}. ${i.name} (Ukuran ${i.size}) - Rp ${i.price.toLocaleString()}%0A`;
+        total += i.price;
+    });
+
+    pesan += `%0ATotal: Rp ${total.toLocaleString()}%0A`;
+    pesan += `%0AStatus: Menunggu Konfirmasi`;
+
+    // WA BUSINESS LINK
+    const waLink = `https://wa.me/6281224926077?text=${pesan}`;
+    window.open(waLink, "_blank");
+
+    // reset cart
+    cart=[];
+    document.getElementById("cartCount").innerText=0;
+    document.getElementById("checkoutBox").style.display="none";
+    document.getElementById("address").value="";
+}
+</script>
